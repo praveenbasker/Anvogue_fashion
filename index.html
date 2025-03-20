@@ -1,0 +1,814 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Anvogue - Fashion Store</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <style>
+            body {
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+
+            }
+            .navbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #fff;
+                padding: 15px 50px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+            }
+            .navbar .logo {
+                font-weight: bold;
+                font-size: 1.5rem;
+                align-items: center;
+                margin-left: -10%;
+            }
+            .nav-links {
+                display: flex;
+                gap: 20px;
+            }
+            .nav-links a {
+                text-decoration: none;
+                color: #000;
+                font-weight: 500;
+            }
+            .icons a {
+            color: #000;  
+            text-decoration: none; 
+            }
+
+            .icons a:hover {
+            color: #4CAF50; 
+            }
+
+            .icons {
+            display: flex;
+            gap: 35px;
+            margin-right: 80px; 
+            }
+
+           .icons i {
+            font-size: 20px;
+            cursor: pointer;
+            }
+            .search-container {
+            position: absolute;
+            top: 60px;
+            right: 100px;
+            background-color: #ebefe8;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+            border-radius: 5px;
+            }
+
+            .search-container input {
+            border: 1px solid #ebefe8;
+            padding: 8px;
+            width: 200px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
+
+            .search-container button {
+            background: #ebefe8;
+            color:#000;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
+
+            .search-container button:hover {
+            background: #45a049;
+            }
+
+            .header {
+            background-color: #ebefe8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 90px;  
+            height: 90vh;        
+            position: relative;
+            box-sizing: border-box;
+            position: relative;
+            }
+            .header-content {
+                max-width: 40%;
+            }
+            h1{
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                font-size: 5rem;
+                
+            }
+            @keyframes fadeSlideUp {
+        0% {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+       }
+
+            .slider {
+                display: flex;
+                overflow: hidden;
+                width: 100%;
+                position: relative;
+            }
+            .slide {
+                display: flex;
+                align-items: center;
+                min-width: 100%;
+                transition: transform 0.5s ease;
+            }
+            .slide img {
+                width: 40%;
+                margin-top: 7%;
+                border-radius: 8px;
+            }
+            .slider-controls {
+                position: absolute;
+                top: 50%;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                transform: translateY(-50%);
+            }
+            .slider-controls button {
+                background-color: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                border: none;
+                padding: 30px 20px;
+                cursor: pointer;
+            }
+        
+            .bullet-navigation {
+                text-align: center;
+                position: absolute;
+                width: 100%;
+                bottom: 10px;
+            }
+
+            .bullet {
+                height: 12px;
+                width: 12px;
+                background-color: #bbb;
+                border-radius: 50%;
+                display: inline-block;
+                margin: 0 5px;
+                cursor: pointer;
+            }
+
+            .bullet.active {
+                background-color: #4CAF50;
+            }
+            .products {
+                display: flex;
+                gap: 20px;
+                padding: 40px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .product {
+                background-color: #f3f3f3;
+                border-radius: 10px;
+                width: 200px;
+                text-align: center;
+                padding: 20px;
+            }
+            .product img {
+                width: 100%;
+                border-radius: 8px;
+            }
+            .discount {
+                background-color: #e63946;
+                color: #fff;
+                border-radius: 5px;
+                padding: 5px 10px;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                font-weight: bold;
+                font-size: 0.9rem;
+        }
+        .product {
+                position: relative; 
+                background-color: #f3f3f3;
+                border-radius: 10px;
+                width: 200px;
+                text-align: center;
+                padding: 20px;
+                overflow: hidden;
+        }
+        .cart-sidebar {
+                position: fixed;
+                padding: 20px;
+                top: 15px;
+                right: -400px;
+                width: 330px;
+                height: calc(100vh - 55px);  
+                background: #f8f8f8;
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+                transition: 0.3s;
+                display: flex;
+                flex-direction: column;
+                z-index: 1001;
+            }
+
+            #cart-items {
+                flex-grow: 1; 
+                overflow-y: auto;
+                padding: 10px;
+                max-height: 75vh; 
+            }
+            .cart-item-image {
+            width: 80px; 
+            height: 120px; 
+            border-radius: 8px; 
+            object-fit: cover; 
+            margin-right: 10px; 
+            }
+
+            #cart-total-container {
+                position: sticky;
+                bottom: 0;
+                background-color: #fff;
+                padding: 30px 0;
+                border-top: 2px solid #ddd;
+                text-align: center;
+                font-weight: bold;
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+                width: 100%; 
+                font-weight: 500;
+            }
+
+            .cart-sidebar.open {
+                right: 0;
+            }
+            
+            .close-btn {
+                font-size: 24px;
+                cursor: pointer;
+                position: absolute;
+                top: 10px;
+                right: 15px;
+            }
+            .cart-item {
+                border-bottom: 1px solid #ddd;
+                padding: 10px 0;
+            }
+            .cart-item button {
+                background: red;
+                color: white;
+                border: none;
+                padding: 5px;
+                cursor: pointer;
+            }
+            .wishlist-btn {
+                position: absolute;
+                top: 16%;
+                right: 62%;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 24px;
+                color: gray;
+            }
+
+            .wishlist-btn.added {
+                color: red;
+           }
+            .wishlist-sidebar {
+            position: fixed;
+            top: 0;
+            right: -350px;  
+            width: 390px;
+            height: 350vh;
+            background: #fff;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+            transition: right 0.4s ease-in-out;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 1001;
+        }
+
+        .wishlist-sidebar.open {
+            right: 0;
+        }
+
+       .wishlist-img {
+                    width: 90px;
+                    height: 130px;
+                    object-fit: cover;
+                    border-radius: 5px;
+                    margin-right: 10px;
+                    }
+
+        .wishlist-item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 10px;
+        }
+
+        .remove-wishlist {
+                background: red;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+                margin-left: 10%;
+        }
+        #close-wishlist {
+            display: block;
+                position: absolute;
+                top: 20px;
+                right: 103px;
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: #333;
+            }
+
+        #close-wishlist:hover {
+            color: rgb(255, 0, 0);
+        }
+        .cart-actions {
+            margin-top: -32px;
+            text-align: center;
+            margin-left: 90px;
+            }
+
+            #buy-now-btn {
+                background-color: #4CAF50;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 1rem;
+                
+            }
+
+            #buy-now-btn:hover {
+                background-color: #45a049;
+            }
+
+
+
+            .footer {
+                background-color: #212121;
+                color: #fff;
+                padding: 20px 50px;
+                text-align: center;
+            }
+            .footer a {
+                color: #bbb;
+                text-decoration: none;
+                margin: 0 15px;
+            }.header .shop-now-btn {
+                position: absolute;
+                top: 80%;
+                background-color: #131413;
+                color: #fff;
+                border: none;
+                padding: 12px 20px;
+                border-radius: 30px;
+                cursor: pointer;
+                font-size: 1.2rem;
+                margin-top: 0;
+                text-decoration: none; 
+                display: inline-block;
+                text-align: center;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+            }
+
+            .header .shop-now-btn:hover {
+                background-color: #4CAF50; 
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+            }  
+    @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .navbar, .header, .products, .footer {
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeInContent 1s ease-in-out forwards;
+            }
+
+            @keyframes fadeInContent {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .navbar { animation-delay: 0.2s; }
+            .header { animation-delay: 0.4s; }
+            .products { animation-delay: 0.6s; }
+            .footer { animation-delay: 0.8s; }
+
+
+
+     @media (max-width: 480px) {    
+        .navbar {
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        background-color: #fff;
+        padding: 10px;
+        gap: 15px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 10%;
+        color: #525851;
+        z-index: 1000;
+    }
+
+    .navbar .logo {
+        font-size: 1.3rem;  
+        margin-left: -5%;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: row;
+        gap: 25px;  
+        text-align: center;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: #525851;
+        font-weight: bold;
+        font-size: 14px; 
+    }
+
+    .icons {
+        display: flex;
+        margin-right: 10px;
+        color: #525851;
+        margin-bottom: 20px;
+        justify-content: space-between;
+    }
+
+    .icons i {
+        font-size: 30px;
+        gap: 80px;
+        justify-content: space-between;
+        cursor: pointer;
+    }
+
+    .search-container {
+        position: absolute;
+        top: 100%;
+        width: 40%;
+        background-color: #f8f8f8;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: none;
+    }
+
+    .search-container input {
+        width: 80%; 
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .search-container button {
+        background: #4CAF50;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    .search-container button:hover {
+        background: #45a049;
+    }
+  
+    .header {
+        margin-top: 30%;
+        padding: 10px 20px;
+        height: 40vh;  
+    }
+
+    .header-content {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 1rem;  
+    }
+
+    .slide img {
+        width: 50%;
+        margin-top: 0;
+        border-radius: 8px;
+    }
+
+    .slider-controls button {
+        padding: 20px 35px;  
+    }
+
+    .products {
+        gap: 10px; 
+        padding: 20px;  
+    }
+
+    .product {
+        width: 70%;  
+        padding: 15px;
+    }
+    .image-gallery {
+        display: flex;
+        flex-direction: column;
+        gap: 80px; 
+    }
+
+    .image-gallery img {
+        width: 70px; 
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        margin-top:-70%;
+    }
+    .header .shop-now-btn {
+        position: absolute;
+        top: 70%;  
+        left: 5%;  
+        width: 70%;  
+        padding: 8px 12px;  
+        font-size: 0.9rem;
+    }
+
+    .cart-sidebar, .wishlist-sidebar {
+        width: 80%;  
+        right: -100%;  
+    }
+
+    .cart-sidebar.open, .wishlist-sidebar.open {
+        right: 0;  
+    }
+
+   
+    .footer {
+        padding: 15px 20px;
+    }
+
+    .header .shop-now-btn {
+        top: 77%; 
+       right: 10px;
+        width: 30%;  
+        text-align: center;
+        padding: 10px 15px;  
+        font-size: 1rem;
+    }
+}
+
+
+    </style>
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="nav-links">
+                <a href="#">Demo</a>
+                <a href="#">Features</a>
+                <a href="#">Shop</a>
+                <a href="#">Product</a>
+                <a href="#">Blog</a>
+                <a href="#">Pages</a>  
+            </div> 
+            <div class="logo">Anvogue</div>  
+         
+            <div class="icons">
+                <a href="search.html"><i class="fas fa-search"></i></a>
+                <a href="profile.html"><i class="fas fa-user"></i></a>
+                <a href="#" id="wishlist-icon"><i class="fas fa-heart"></i></a>
+                <a href="#" id="cart-icon"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+
+               <div class="search-container" id="search-container">
+                <input type="text" id="search-input" placeholder="Search for products...">
+                <button onclick="performSearch()">Search</button>
+            </div>
+
+            <div class="wishlist-sidebar">
+                <button id="close-wishlist">&times;</button>
+                <h2>My Wishlist</h2>
+                <div class="wishlist-items"></div>
+            </div>
+            
+            
+        </div>
+        <div class="header"><div class="slider">
+            <div class="slide">
+                <h1>Find Your Style With Us</h1>
+                <a href="product3.html" class="shop-now-btn">SHOP NOW</a>
+                <img src="1011A-Spring-Portrait-300ppi-14-Photoroom.png" alt="Product Image 1">
+            </div>
+            <div class="slide">
+                <h1>Exclusive Deals on Trendy Outfits</h1>
+                <a href="product3.html" class="shop-now-btn">SHOP NOW</a> 
+                <img src="1011A-SL-PR-Portrait-A4-sRGB-300ppi-040325-27-Photoroom.png" alt="Product Image 2">
+            </div>
+            <div class="slide">
+                <h1>Upgrade Your Wardrobe Today</h1>
+                <a href="product3.html" class="shop-now-btn">SHOP NOW</a>
+
+                <img src="1011A-SL-PR-Portrait-A4-sRGB-300ppi-040325-65-Photoroom.png" alt="Product Image 3">
+            </div>
+        </div>
+        
+        
+            <div class="bullet-navigation">
+                <span class="bullet" onclick="showSlide(0)"></span>
+                <span class="bullet" onclick="showSlide(1)"></span>
+                <span class="bullet" onclick="showSlide(2)"></span>
+            </div>
+        </div>
+    
+    
+        
+
+        <div class="products">
+            <div class="product">
+                <div class="discount">-30%</div>
+                <a href="product3.html"><img src="black1.avif" alt="Product 1"></a>
+            </div>
+            <div class="product">
+                <div class="discount">-50%</div>
+                <a href="product.html"><img src="yellow2.avif" alt="Product 2"></a>
+            </div>
+            <div class="product">
+                <div class="discount">-20%</div>
+                <a href="products2.html"><img src="beige1.avif" alt="Product 3"></a>
+            </div>
+            <div class="product">
+                <div class="discount">-40%</div>
+                <a href="products4.html"><img src="black-pant1.avif" alt="Product 4"></a>
+            </div>
+        </div>
+      
+        <div class="cart-sidebar" id="cart-sidebar">
+            <span class="close-btn" id="close-cart">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div>Total: <span id="cart-total">0.00</span></div><span> <div class="cart-actions">
+                <button id="buy-now-btn">Buy Now</button>
+            </div>
+            </span>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 Anvogue. All rights reserved.</p>
+            <p>
+                <a href="#">About</a> |
+                <a href="#">Contact</a> |
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Terms of Service</a>
+            </p>
+        </div>
+
+        <script>
+            let slideIndex = 0;
+            const slides = document.querySelectorAll('.slide');
+            const bullets = document.querySelectorAll('.bullet');
+        
+            function showSlide(index) {
+                slideIndex = index;
+                slides.forEach((slide, idx) => {
+                    slide.style.transform = `translateX(-${index * 100}%)`;
+                    bullets[idx].classList.toggle('active', idx === index);
+                });
+            }
+            showSlide(0);
+
+            document.querySelector(".fa-search").addEventListener("click", function(event) {
+            event.preventDefault(); 
+            let searchBox = document.getElementById("search-container");
+            searchBox.style.display = searchBox.style.display === "block" ? "none" : "block";
+            });
+
+            function performSearch() {
+            let query = document.getElementById("search-input").value;
+            if (query) {
+            alert("Searching for: " + query);
+            }
+            }
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+            const wishlistContainer = document.querySelector(".wishlist-items");
+            const wishlistSidebar = document.querySelector(".wishlist-sidebar");
+            const wishlistIcon = document.querySelector("#wishlist-icon");
+            const closeWishlistBtn = document.querySelector("#close-wishlist");
+
+            
+            let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+          
+            function displayWishlist() {
+                wishlistContainer.innerHTML = ""; 
+
+                if (wishlist.length === 0) {
+                    wishlistContainer.innerHTML = "<p>No items in your wishlist.</p>";
+                    return;
+                }
+
+                wishlist.forEach(item => {
+                    const wishlistItem = document.createElement("div");
+                    wishlistItem.classList.add("wishlist-item");
+
+                    wishlistItem.innerHTML = `
+                        <img src="${item.imageUrl}" class="wishlist-img">
+                        <p>${item.color ? 'Color: ' + item.color : 'No color selected'}</p>
+                        <button class="remove-wishlist" onclick="removeFromWishlist('${item.imageUrl}')">Remove</button>
+                    `;
+
+                    wishlistContainer.appendChild(wishlistItem);
+                });
+            }
+
+            
+            window.removeFromWishlist = function (imageUrl) {
+                wishlist = wishlist.filter(item => item.imageUrl !== imageUrl);
+                localStorage.setItem("wishlist", JSON.stringify(wishlist));
+                displayWishlist();
+            };
+
+         
+            wishlistIcon.addEventListener("click", function () {
+                wishlistSidebar.classList.toggle("open");
+            });
+
+            closeWishlistBtn.addEventListener("click", function () {
+                wishlistSidebar.classList.remove("open");
+            });
+
+            
+            displayWishlist();
+        });
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const buyNowButton = document.getElementById('buy-now-btn');
+
+            buyNowButton?.addEventListener('click', () => {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                if (cart.length === 0) {
+                    alert("Your cart is empty. Please add items before proceeding.");
+                    return;
+                }
+
+                const queryString = cart.map((item, index) =>
+                    `product${index + 1}=${encodeURIComponent(item.name)}&size=${encodeURIComponent(item.size)}&color=${encodeURIComponent(item.color)}&quantity=${item.quantity}&price=${item.price}`
+                ).join('&');
+
+                window.location.href = `checkout.html?${queryString}`;
+            });
+        });
+   
+
+
+
+
+
+        
+        </script>
+        <script src="cart.js"></script>
+    
+    </body>
+    </html>

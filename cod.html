@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cash on Delivery (COD)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: #f0f8f7;
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .cod-container {
+            background-color:#ddd ;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            border-top: 5px solid #252a25;
+        }
+
+        .cod-container h2 {
+            color: #3f3f3f;
+            margin-bottom: 20px;
+        }
+
+        .phone-input {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #1c1f1c;
+        }
+
+        .flag-select {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            background-color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .flag-select img {
+            width: 24px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        .phone-number {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            background: transparent;
+        }
+
+        .cod-container button {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: #1f241f;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .cancel-btn {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+            background-color: #e63946;
+        }
+
+        .cod-container button:hover {
+            background-color: #45a049;
+        }
+
+        .cancel-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .error {
+            color: #e63946;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .success {
+            
+            color: #4CAF50;
+            margin-top: 10px;
+            display: none;
+        }
+   @media (max-width: 600px) {
+    body {
+        padding: 15px;
+        display: block; 
+    }
+    .payment-container {
+        width: 90%;
+        margin: 50px auto;
+    }
+    .payment-btn {
+        padding: 10px;
+        font-size: 1rem;
+    }
+    .cod-container {
+        width: 90%; 
+        max-width: 100%; 
+        margin-top: 55%;
+        padding: 10px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-top: 4px solid #252a25;
+    }
+
+    .phone-input {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .flag-select,
+    .phone-number {
+        width: 50%;
+        text-align: center;
+    }
+
+    .cod-container h2 {
+        font-size: 1.4rem;
+    }
+
+    .cod-container button {
+        padding: 10px 16px; 
+        font-size: 1rem; 
+        margin-top: 10px; 
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<div class="cod-container">
+    <h2>Cash on Delivery</h2>
+    <p>Enter your phone number:</p>
+
+    <div class="phone-input">
+        <select id="country-code" class="flag-select">
+            <option value="+91" data-flag="🇮🇳">🇮🇳 +91 (IN)</option>
+            <option value="+1" data-flag="🇺🇸">🇺🇸 +1 (US)</option>
+            <option value="+44" data-flag="🇬🇧">🇬🇧 +44 (UK)</option>
+            <option value="+971" data-flag="🇦🇪">🇦🇪 +971 (UAE)</option>
+            <option value="+61" data-flag="🇦🇺">🇦🇺 +61 (AUS)</option>
+        </select>
+
+        <input type="tel" id="phone-number" class="phone-number" placeholder="Enter phone number">
+    </div>
+
+    <p class="error" id="error-message">Please enter a valid phone number.</p>
+    <p class="success" id="success-message">Order placed successfully!</p>
+
+    <button onclick="confirmOrder()">Confirm Order</button>
+    <button class="cancel-btn" onclick="window.location.href='checkout.html'">Cancel Order</button>
+</div>
+
+<script>
+    function confirmOrder() {
+        const clientNumber = document.getElementById('phone-number').value.trim(); 
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+
+        const phonePattern = /^[0-9]{7,15}$/;
+
+        if (phonePattern.test(clientNumber)) {
+            const fullNumber = `+91${clientNumber}`; 
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'block';
+
+            
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            if (cart.length === 0) {
+                alert('⚠️ Your cart is empty. Please add products before placing the order.');
+                return;
+            }
+
+           
+            let message = `📦 *Order Confirmation*\n\n🛒 *Your Order Details:*\n`;
+            let totalAmount = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                totalAmount += itemTotal;
+
+                message += `\n🔹 *Item ${index + 1}*\n`;
+                message += `📌 *Name:* ${item.name}\n`;
+                message += `📏 *Size:* ${item.size}\n`;
+                message += `🎨 *Color:* ${item.color}\n`;
+                message += `💰 *Price:* ₹${item.price.toFixed(2)} x ${item.quantity}\n`;
+                message += `🖼️ *Image:* ${item.image}\n`;
+                message += `--------------------------------\n`;
+            });
+
+            message += `\n💰 *Total Amount:* ₹${totalAmount.toFixed(2)}\n`;
+            message += `✅ *Thank you for your order!*`;
+
+            
+            const encodedMessage = encodeURIComponent(message);
+
+            alert(`Order placed successfully! A confirmation message has been sent to ${fullNumber}`);
+            window.open(`https://wa.me/${fullNumber}?text=${encodedMessage}`, '_blank');
+        } else {
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
+
+
+</body>
+</html>

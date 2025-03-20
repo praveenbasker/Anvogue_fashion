@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color:  #fcfffb;
+            padding: 20px;
+        }
+        .checkout-container {
+            background-color:#ddd ;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .product-item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .product-image {
+            width: 80px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        .product-details {
+            flex-grow: 1;
+        }
+        .product-name {
+            font-weight: bold;
+        }
+        .remove-item {
+            background-color: #e63946;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .total-amount {
+            text-align: right;
+            margin-top: 5px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        #buy-now-btn {
+                background-color: #4CAF50;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 1rem;
+                
+            }
+
+         #buy-now-btn:hover {
+                background-color: #45a049;
+            }
+            .logo {
+                font-weight: bold;
+                font-size: 1.8rem;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                color: #6c766d;
+                text-decoration: none;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+       
+
+    </style>
+</head>
+<body>
+
+
+<div class="checkout-container">
+    <a href="index.html" class="logo">Anvogue</a>
+    <h1>Checkout</h1>
+    <div id="checkout-details"></div>
+    <div class="total-amount">Total: ₹<span id="total-amount">0.00</span></div>
+    <button id="buy-now-btn">Buy Now</button>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkoutDetails = document.getElementById('checkout-details');
+        const totalAmountElement = document.getElementById('total-amount');
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function displayCheckout() {
+            if (cart.length === 0) {
+                checkoutDetails.innerHTML = "<p>Your cart is empty.</p>";
+                totalAmountElement.textContent = "0.00";
+                return;
+            }
+
+            let totalAmount = 0;
+            checkoutDetails.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                totalAmount += itemTotal;
+
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('product-item');
+
+                productDiv.innerHTML = `
+                    <img src="${item.image}" class="product-image" alt="${item.name}">
+                    <div class="product-details">
+                        <p class="product-name">${item.name}</p>
+                        <p>Size: ${item.size}</p>
+                        <p>Color: ${item.color}</p>
+                        <p>Price: ₹${item.price.toFixed(2)}</p>
+                        <p>Quantity: ${item.quantity}</p>
+                    </div>
+                    <button class="remove-item" data-index="${index}">Remove</button>
+                `;
+
+                checkoutDetails.appendChild(productDiv);
+            });
+
+            totalAmountElement.textContent = totalAmount.toFixed(2);
+
+            // Remove item logic
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const index = parseInt(event.target.getAttribute('data-index'));
+                    cart.splice(index, 1);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    displayCheckout(); 
+                });
+            });
+        }
+
+        displayCheckout();
+    });
+
+
+
+
+    document.getElementById('buy-now-btn').addEventListener('click', () => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if (cart.length === 0) {
+        alert('⚠️ Your cart is empty. Please add products before proceeding to payment.');
+    } else {
+        window.location.href = 'payment.html';
+    }
+});
+
+</script>
+
+</body>
+</html>

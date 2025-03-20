@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Options</title>
+    <style>
+        body {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: #fcfffb;
+            padding: 20px;
+        }
+
+        .payment-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            margin: 100px auto;
+            text-align: center;
+            border: 2px solid #353635;
+        }
+
+        h2 {
+            color: #696f69;
+            margin-bottom: 20px;
+        }
+
+        .payment-btn {
+            background-color: #404940;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .payment-btn:hover {
+            background-color: #45a049;
+        }
+
+        .back-btn {
+            background-color: #e63946;
+        }
+
+        .back-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-container">
+    <h2>Select Payment Method</h2>
+    <button class="payment-btn" onclick="alert('Currently Unavailable. Please try again later.')">Debit Card</button>
+    <button class="payment-btn" onclick="alert('Currently Unavailable. Please try again later.')">PhonePe</button>
+    <button class="payment-btn" onclick="alert('Currently Unavailable. Please try again later.')">Google Pay</button>
+    <button class="payment-btn" onclick="window.location.href='cod.html'">Cash on Delivery (COD)</button>
+    <button class="payment-btn back-btn" onclick="window.location.href='checkout.html'">Back to Checkout</button>
+</div>
+
+</body>
+</html>
